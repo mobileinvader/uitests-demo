@@ -17,18 +17,27 @@ class UITestDemoUITests: XCTestCase {
   }
   
   func test_item_can_be_added_to_the_list() {
-    // UI tests must launch the application that they test.
     let app = XCUIApplication()
     app.launch()
     
-    //TODO
+    app.navigationBars["Things to do"].buttons["New Item"].tap()
+    let todoItem = app.textFields["Enter name"]
+    todoItem.tap()
+    todoItem.typeText("Buy a house")
+    app.buttons["Add"].tap()
+    
+    XCTAssertTrue(app.tables.staticTexts["Buy a house"].exists)
   }
   
   func test_item_can_be_removed_from_the_list() {
-    // UI tests must launch the application that they test.
     let app = XCUIApplication()
     app.launch()
+    let firstItem = XCUIApplication().tables.staticTexts["Make cool app"]
+    _ = firstItem.waitForExistence(timeout: 5)
+    firstItem.swipeLeft()
+    let deleteButton = app.tables.buttons["trailing0"]
+    deleteButton.tap()
     
-    //TODO
+    XCTAssertFalse(app.tables.staticTexts["Make cool app"].exists)
   }
 }
