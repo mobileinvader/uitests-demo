@@ -32,12 +32,12 @@ class UITestDemoUITests: XCTestCase {
   func test_item_can_be_removed_from_the_list() {
     let app = XCUIApplication()
     app.launch()
-    let firstItem = XCUIApplication().tables.staticTexts["Make cool app"]
-    _ = firstItem.waitForExistence(timeout: 5)
+
+    let tablesQuery = XCUIApplication().tables
+    let firstItem = tablesQuery.cells["Make cool app"].children(matching: .other).element(boundBy: 0)
     firstItem.swipeLeft()
-    let deleteButton = app.tables.buttons["trailing0"]
-    deleteButton.tap()
-    
+    tablesQuery.buttons["Delete"].tap()
+
     XCTAssertFalse(app.tables.staticTexts["Make cool app"].exists)
   }
 }
